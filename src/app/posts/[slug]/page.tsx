@@ -3,10 +3,8 @@ import ReactMarkdown from "react-markdown";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-// ✅ This will be used by Next.js at build time
-export async function generateMetadata(
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
+// ✅ Fix: Make sure the function is NOT marked `async`
+export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   try {
     const post = getPostContent(params.slug);
 
@@ -17,9 +15,11 @@ export async function generateMetadata(
   } catch {
     return {
       title: "Not Found",
+      description: "This page does not exist.",
     };
   }
 }
+
 
 // ✅ This is the actual page function
 export default function PostPage({ params }: { params: { slug: string } }) {
