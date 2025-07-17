@@ -5,7 +5,7 @@ import { Metadata } from "next";
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   try {
-    const post = getPostContent(params.slug);
+    const post = await Promise.resolve(getPostContent(params.slug)); // ✅ fix here
 
     return {
       title: post.data.title,
@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
   }
 }
+
 
 export default function PostPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
